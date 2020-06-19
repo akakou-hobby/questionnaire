@@ -1,2 +1,2 @@
-# electronic-election-api
-A api for electronic-election system.
+# electronic-election
+A electronic-election system.
