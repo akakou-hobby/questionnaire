@@ -1,9 +1,10 @@
 api:
-  build: ./api
+  build: .
   volumes:
-    - ./api:/root
+    - ./vendor:/root/vendor
+    - ./public:/root/public
   working_dir: /root
-  command: bash -c 'php -S 0.0.0.0:8001 -t /root/public'
+  command: bash -c 'php -S 0.0.0.0:8000 -t /root/public'
   ports:
-    - 8001:8001
+    - 8000:8000
 
