@@ -1,8 +1,10 @@
 api:
   build: .
   volumes:
-    - ./vendor:/root/vendor
     - ./public:/root/public
+    - ./src:/root/src
+    - ./templates:/root/templates
+    - ./db.sqlite3:/root/db.sqlite3
   working_dir: /root
   command: bash -c 'php -S 0.0.0.0:8000 -t /root/public'
   ports:
