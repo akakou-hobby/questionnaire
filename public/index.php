@@ -2,8 +2,10 @@
 
 require  __DIR__ . '/../vendor/autoload.php';
 
+Flight::set('flight.views.path', __DIR__ . '/../templates/');
+
 Flight::route('/', function(){
-    echo 'hello world!';
+    Flight::render('index');
 });
 
 Flight::start();
