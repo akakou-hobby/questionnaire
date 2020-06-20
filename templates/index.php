@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
 
     <script src="./static/js/firebase.js"></script>
+    <script src="./static/js/axios.js"></script>
 
     <script src="./static/js/components/auth.js"></script>
 

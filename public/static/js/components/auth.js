@@ -18,12 +18,7 @@ Vue.component("auth-form", {
       alert("registered!");
     },
     async verify() {
-      const idToken = await firebase.auth().currentUser.getIdToken(true);
-
-      const res = await axios.post("/verify", {
-        token: idToken,
-      });
-
+      const res = await axios.post("/verify");
       console.log(res);
     },
   },

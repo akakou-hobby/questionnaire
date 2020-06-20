@@ -7,18 +7,14 @@ use Symfony\Component\Cache\Simple\FilesystemCache;
 use Firebase\Auth\Token\Exception\InvalidToken;
 
 
-# flight config
 Flight::set('flight.views.path', __DIR__ . '/../templates/');
 
-Flight::route('/', function(){
-    Flight::render('index');
-});
-
-Flight::route('/verify', function() {
+Flight::map('auth', function(){
     $factory = (new Factory)->withServiceAccount(__DIR__ . '/../credentials.json');
     $auth = $factory->createAuth();
 
-    $token = Flight::request()->data->token;
+    $authorization = getallheaders()['Authorization'];
+    $token = explode(" ", $authorization)[1];
 
     try {        
         $verifiedIdToken = $auth->verifyIdToken($token, true);
@@ -26,8 +22,19 @@ Flight::route('/verify', function() {
         Flight::json(array('id' => $uid));
 
     } catch (Exception $e){
-        Flight::json(array('status' => 'failed'));
-    } 
+        Flight::halt(401, 'HTTP 401 Unauthorized');
+    }
+});
+
+
+Flight::route('/', function(){
+    Flight::render('index');
+});
+
+Flight::route('/verify', function() {
+    Flight::auth();
+
+    echo "hello";
 });
 
 Flight::start();
