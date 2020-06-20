@@ -6,9 +6,16 @@ Vue.component("auth-form", {
     };
   },
   methods: {
-    register(event) {
-      console.log(this.email);
-      console.log(this.password);
+    register() {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.email, this.password)
+        .catch((error) => {
+          alert(error.code);
+          alert(error.message);
+        });
+
+      alert("registered!");
     },
   },
   template: `
