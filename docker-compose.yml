@@ -1,0 +1,10 @@
+serv:
+  build: .
+  volumes:
+    - ./public:/root/public
+    - ./db.sqlite3:/root/db.sqlite3
+  working_dir: /root
+  command: bash -c 'php -S 0.0.0.0:8000 -t /root/public'
+  ports:
+    - 8000:8000
+
