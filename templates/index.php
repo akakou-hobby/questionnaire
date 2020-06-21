@@ -15,6 +15,8 @@
     <script src="./static/js/firebase.js"></script>
     <script src="./static/js/axios.js"></script>
 
+    <script type='module' src="./static/js/signature.js"></script>
+
     <script src="./static/js/components/auth.js"></script>
 
   </head>
@@ -25,12 +27,6 @@
 
     <script>
       new Vue({ el: '#auth' })
-
-      fetch("bin/signature.wasm").then(response => response.arrayBuffer())
-        .then(bytes => WebAssembly.instantiate(bytes, {}))
-    	.then(results => {
-          console.log(results.instance.exports.hoge(41));
-      });
     </script>
   </body>
 </html>

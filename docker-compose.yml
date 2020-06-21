@@ -5,7 +5,6 @@ serv:
     - ./templates:/root/templates
     - ./db.sqlite3:/root/db.sqlite3
     - ./credentials.json:/root/credentials.json
-    - ./lib/signature/target/wasm32-unknown-unknown/debug/signature.wasm:/root/public/bin/signature.wasm
   working_dir: /root
   command: bash -c 'php -S 0.0.0.0:8000 -t /root/public'
   ports:

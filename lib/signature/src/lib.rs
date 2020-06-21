@@ -1,5 +1,8 @@
-#[no_mangle]
+extern crate wasm_bindgen;
 
-pub extern "C" fn hoge(v: f64) -> f64 {
-    v + 1.0
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn hello(name: &str) -> String {
+    String::from(name) + "!!!!"
 }
