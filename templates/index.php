@@ -25,6 +25,12 @@
 
     <script>
       new Vue({ el: '#auth' })
+
+      fetch("bin/signature.wasm").then(response => response.arrayBuffer())
+        .then(bytes => WebAssembly.instantiate(bytes, {}))
+    	.then(results => {
+          console.log(results.instance.exports.hoge(41));
+      });
     </script>
   </body>
 </html>
