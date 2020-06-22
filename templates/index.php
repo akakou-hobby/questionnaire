@@ -15,6 +15,8 @@
     <script src="./static/js/firebase.js"></script>
     <script src="./static/js/axios.js"></script>
 
+    <script type='module' src="./static/js/signature.js"></script>
+
     <script src="./static/js/components/auth.js"></script>
 
   </head>
