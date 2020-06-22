@@ -34,7 +34,25 @@ Flight::route('/', function(){
 Flight::route('/verify', function() {
     Flight::auth();
 
-    echo "hello";
+    $descriptorspec = array(
+        0 => array("pipe", "r"), 
+        1 => array("pipe", "w"), 
+        2 => array("pipe", "w") 
+    );
+
+    $cmd = __DIR__ . '/../sign sign';
+
+    $process = proc_open($cmd, $descriptorspec, $pipes);
+    
+    if (is_resource($process)) {
+        fwrite($pipes[0], "js2KI2M0nJgwVEJzTRNdVMKLoHOAjK/n/QgmSStecXM=\n");
+        fclose($pipes[0]);
+
+        echo stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+
+        proc_close($process);
+    }
 });
 
 Flight::start();
