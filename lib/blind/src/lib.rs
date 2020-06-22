@@ -20,7 +20,7 @@ struct BlindPair {
 }
 
 #[wasm_bindgen]
-pub fn blind(message: &str, pubkey: &str) -> String {
+pub fn blind(message: &str, pubkey: &str) -> String {    
     let mut rng = rand::thread_rng();
 
     let signer_pub_key = pem::parse(pubkey).unwrap();
@@ -35,4 +35,16 @@ pub fn blind(message: &str, pubkey: &str) -> String {
     };
 
     serde_json::to_string(&blind_pair).unwrap()
+}
+
+#[wasm_bindgen]
+pub fn unblind(blind_signature: &str, pubkey: &str, unblinder: &str) -> String {
+    let signer_pub_key = pem::parse(pubkey).unwrap();
+    let signer_pub_key = RSAPublicKey::from_pkcs1(&signer_pub_key.contents).unwrap();
+    
+    let blind_signature = base64::decode(blind_signature).unwrap();
+    let unblinder = base64::decode(unblinder).unwrap();
+
+    let signature = blind::unblind(&signer_pub_key, &blind_signature, &unblinder);
+    base64::encode(signature)
 }

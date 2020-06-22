@@ -1,4 +1,4 @@
-import init, { blind } from "../wasm/signature.js";
+import init, { blind, unblind } from "../wasm/signature.js";
 
 setTimeout(async () => {
   await init();
@@ -7,7 +7,7 @@ setTimeout(async () => {
   const dataStr = blind("hello", res.data);
   const data = JSON.parse(dataStr);
 
-  localStorage.unblinder = data.unblinder;
+  // localStorage.unblinder = data.unblinder;
 
   console.log(data.blinded_digest, data.unblinder);
 
@@ -16,4 +16,8 @@ setTimeout(async () => {
 
   const _res = await axios.post("/sign", params);
   console.log(_res.data);
+
+  _res.data = _res.data.slice(0, -1);
+  const result = unblind(_res.data, res.data, data.unblinder);
+  console.log(result);
 }, 3000);
