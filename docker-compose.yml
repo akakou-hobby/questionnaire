@@ -13,3 +13,5 @@ serv:
   command: bash -c 'php -S 0.0.0.0:8000 -t /root/public'
   ports:
     - 8000:8000
+  environment:
+    - RUST_BACKTRACE=1

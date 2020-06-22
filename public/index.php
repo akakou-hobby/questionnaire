@@ -31,8 +31,8 @@ Flight::route('/', function(){
     Flight::render('index');
 });
 
-Flight::route('/verify', function() {
-    Flight::auth();
+Flight::route('/sign', function() {
+    // Flight::auth();
 
     $descriptorspec = array(
         0 => array("pipe", "r"), 
@@ -45,11 +45,18 @@ Flight::route('/verify', function() {
     $process = proc_open($cmd, $descriptorspec, $pipes);
     
     if (is_resource($process)) {
-        fwrite($pipes[0], "js2KI2M0nJgwVEJzTRNdVMKLoHOAjK/n/QgmSStecXM=\n");
+        $blind_digest = Flight::request()->data->$blind_digest;
+
+        $blind_digest = $_POST['blind_digest'];
+
+        fwrite($pipes[0], $blind_digest);
         fclose($pipes[0]);
 
         echo stream_get_contents($pipes[1]);
         fclose($pipes[1]);
+
+        echo stream_get_contents($pipes[2]);
+        fclose($pipes[2]);
 
         proc_close($process);
     }
