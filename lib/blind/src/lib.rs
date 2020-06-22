@@ -6,6 +6,7 @@ use rsa_fdh::blind;
 use rsa::{RSAPrivateKey, RSAPublicKey};
 use sha2::{Sha256, Digest};
 
+use pem;
 use rand;
 use base64;
 
@@ -19,11 +20,11 @@ struct BlindPair {
 }
 
 #[wasm_bindgen]
-pub fn blind(message: &str) -> String {
+pub fn blind(message: &str, pubkey: &str) -> String {
     let mut rng = rand::thread_rng();
 
-    let signer_priv_key = RSAPrivateKey::new(&mut rng, 256).unwrap();
-    let signer_pub_key: RSAPublicKey = signer_priv_key.clone().into();
+    let signer_pub_key = pem::parse(pubkey).unwrap();
+    let signer_pub_key = RSAPublicKey::from_pkcs1(&signer_pub_key.contents).unwrap();
 
     let digest = blind::hash_message::<Sha256, _>(&signer_pub_key, message.as_bytes()).unwrap();
     let (blinded_digest, unblinder) = blind::blind(&mut rng, &signer_pub_key, &digest);

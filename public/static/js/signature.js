@@ -1,6 +1,8 @@
 import init, { blind } from "../wasm/signature.js";
 
-(async () => {
+setTimeout(async () => {
   await init();
-  console.log(blind("hello"));
-})();
+  const res = await axios.get("../static/pub.pem").data;
+
+  console.log(blind("hello", res));
+}, 3000);
