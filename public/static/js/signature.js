@@ -10,7 +10,7 @@ setTimeout(async () => {
   const params = new URLSearchParams();
   params.append("blind_digest", data.blinded_digest);
 
-  const _res = await axios.post("/sign", params);
+  const _res = await axios.post("/api/sign", params);
 
   _res.data = _res.data.slice(0, -1);
   const result = unblind(_res.data, res.data, data.unblinder);
