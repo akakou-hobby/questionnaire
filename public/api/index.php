@@ -2,34 +2,36 @@
 
 require  __DIR__ . '/../../vendor/autoload.php';
 
-use Kreait\Firebase\Factory;
-use Symfony\Component\Cache\Simple\FilesystemCache;
-use Firebase\Auth\Token\Exception\InvalidToken;
+use \Firebase\JWT\JWT;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 
+
 $app = new \Slim\App;
 
 function auth() {
-    $factory = (new Factory)->withServiceAccount(__DIR__ . '/../../credentials.json');
-    $auth = $factory->createAuth();
-
     $authorization = getallheaders()['Authorization'];
-    $token = explode(" ", $authorization)[1];
 
-    try {        
-        $verifiedIdToken = $auth->verifyIdToken($token, true);
-        return true;
-    } catch (Exception $e){
-        return false;
+    if (preg_match('#\ABearer\s+(.+)\z#', $authorization, $m)) {
+        $jwt = $m[1];
+
+        $pkeys_raw = file_get_contents("https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com");
+        $pkeys = json_decode($pkeys_raw, true);
+        
+        try {
+            $decoded = JWT::decode($jwt, $pkeys, array('RS256'));
+            return true;
+        } catch (Exception $e){
+            return false;
+        }
     }
 }
 
 $app->post('/sign', function (Request $request, Response $response, array $args) {
     if (!auth()) {
-        return "error";
+        return "authentication failed";
     }
 
     $descriptorspec = array(
