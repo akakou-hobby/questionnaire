@@ -9,6 +9,9 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 define('PRODUCT_NAME', 'questionnaire-e0c0b');
 
+$dbh = new PDO('sqlite:' . __DIR__ . '/../db.sqlite3');
+$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
 $app = new \Slim\App;
 
