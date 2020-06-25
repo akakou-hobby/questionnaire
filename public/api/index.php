@@ -7,6 +7,7 @@ use \Firebase\JWT\JWT;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+define('PRODUCT_NAME', 'questionnaire-e0c0b');
 
 
 $app = new \Slim\App;
@@ -22,9 +23,15 @@ function auth() {
         
         try {
             $decoded = JWT::decode($jwt, $pkeys, array('RS256'));
-            return true;
         } catch (Exception $e){
-            return false;
+            return null;
+        }
+
+        if ($decoded->aud == PRODUCT_NAME) {
+            return $decoded;
+        }
+        else {
+            return null;
         }
     }
 }
