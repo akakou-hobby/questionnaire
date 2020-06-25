@@ -18,3 +18,4 @@ public/static/wasm/
 
 *.pem
 /sign
+.bash_history
