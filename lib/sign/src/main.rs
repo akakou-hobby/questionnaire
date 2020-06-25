@@ -23,7 +23,7 @@ fn sign() {
     io::stdin().read_line(&mut encoded_digest).unwrap();
     encoded_digest.truncate(encoded_digest.len() - 1);
 
-    let signer_priv_key = fs::read_to_string("pri.pem").unwrap();
+    let signer_priv_key = fs::read_to_string("../../pri.pem").unwrap();
     let signer_priv_key = pem::parse(signer_priv_key).unwrap();
     let signer_priv_key = RSAPrivateKey::from_pkcs1(&signer_priv_key.contents).unwrap();
 
