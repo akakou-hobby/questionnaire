@@ -17,25 +17,17 @@ Vue.component("auth-form", {
 
       alert("registered!");
     },
-    async verify() {
-      const res = await axios.post("/verify");
-      console.log(res);
-    },
   },
   template: `
     <div>
         <h2>Register</h2>
-        <form action="#">
-            <label>email</label>
-            <input v-model="email"></input>
-            <br>
-            <label>password</label>
-            <input v-model="password"></input>
-            <br>
-            <button v-on:click="register">register</button>
-            <br>
-            <button v-on:click="verify">verify</button>
-        </form>
+          <label>email</label>
+          <input v-model="email"></input>
+          <br>
+          <label>password</label>
+          <input v-model="password"></input>
+          <br>
+          <button v-on:click="register">register</button>
     </div>
     `,
 });
