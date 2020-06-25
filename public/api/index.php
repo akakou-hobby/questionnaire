@@ -9,11 +9,24 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 define('PRODUCT_NAME', 'questionnaire-e0c0b');
 
-$dbh = new PDO('sqlite:' . __DIR__ . '/../db.sqlite3');
-$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$dbh->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
 $app = new \Slim\App;
+
+$container = $app->getContainer();
+
+$container['db'] = function ($c) {
+    $pdo = new PDO('sqlite:' . __DIR__ . '/../../db.sqlite3');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS answers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            questionnaire_id INTEGER,
+            data VARCHAR(1000),
+            signature VARCHAR(1000)
+        )");
+
+    return $pdo;
+};
 
 function auth() {
     $authorization = getallheaders()['Authorization'];
@@ -69,6 +82,27 @@ $app->post('/sign', function (Request $request, Response $response, array $args)
         proc_close($process);
     }
 });
+
+$app->post('/answer', function (Request $request, Response $response, array $args) {
+    if (!auth()) {
+        return "authentication failed";
+    }
+
+    $json = file_get_contents("php://input");
+    $contents = json_decode($json, true);
+
+    $answers = $contents["answers"];
+    $signature = $contents["signature"];
+
+    $stmt = $this->db->prepare("
+        INSERT INTO answers(questionnaire_id, data, signature)
+        VALUES (?, ?, ?);
+        ");
+
+    $stmt->execute([1, $answers, $signature]);
+});
+
+
 
 
 $app->run();

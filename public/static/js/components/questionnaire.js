@@ -13,13 +13,13 @@ Vue.component("questionnaire-form", {
   },
   methods: {
     async answer() {
-      //   const answers = JSON.stringify({ data1: "aaa" });
-      //   const signature = await calc_signature(answers);
-      //   const res = await axios.post("api/answer", {
-      //     answers: answers,
-      //     signature: signature,
-      //   });
-      //   console.log(res);
+      const answers = JSON.stringify({ data1: this.data1 });
+      const signature = await calc_signature(answers);
+      const res = await axios.post("api/answer", {
+        answers: answers,
+        signature: signature,
+      });
+      console.log(res);
     },
   },
   template: `
