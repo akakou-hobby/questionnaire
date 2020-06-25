@@ -1,18 +1,25 @@
 import init, { blind, unblind } from "../wasm/signature.js";
 
-setTimeout(async () => {
+(async () => {
   await init();
-  const res = await axios.get("../static/pub.pem");
+})();
 
-  const dataStr = blind("hello", res.data);
-  const data = JSON.parse(dataStr);
+const calc_signature = async (data) => {
+  const pubkeyRes = await axios.get("../static/pub.pem");
+  const pubkey = pubkeyRes.data;
+
+  const blindPairStr = blind(data, pubkey);
+  const blindPair = JSON.parse(blindPairStr);
 
   const params = new URLSearchParams();
-  params.append("blind_digest", data.blinded_digest);
+  params.append("blind_digest", blindPair.blind_digest);
+  const signedRes = await axios.post("/api/sign", params);
 
-  const _res = await axios.post("/api/sign", params);
-
-  _res.data = _res.data.slice(0, -1);
-  const result = unblind(_res.data, res.data, data.unblinder);
+  const signedBlindedSignature = signedRes.data.slice(0, -1);
+  const result = unblind(signedBlindedSignature, pubkey, blindPair.unblinder);
   console.log("signature:", result);
-}, 3000);
+
+  return result;
+};
+
+export { calc_signature };
