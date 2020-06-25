@@ -21,15 +21,13 @@ Vue.component("auth-form", {
   template: `
     <div>
         <h2>Register</h2>
-        <form action="#">
-            <label>email</label>
-            <input v-model="email"></input>
-            <br>
-            <label>password</label>
-            <input v-model="password"></input>
-            <br>
-            <button v-on:click="register">register</button>
-        </form>
+          <label>email</label>
+          <input v-model="email"></input>
+          <br>
+          <label>password</label>
+          <input v-model="password"></input>
+          <br>
+          <button v-on:click="register">register</button>
     </div>
     `,
 });
