@@ -5,8 +5,8 @@ require  __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../src/auth.php';
 require __DIR__ . '/../../src/db.php';
 
-
-if (!auth()) {
+$user = auth();
+if (!$user) {
     echo "authentication failed";
     exit;
 }
@@ -35,3 +35,10 @@ if (is_resource($process)) {
 
     proc_close($process);
 }
+
+$logs = ORM::for_table('signlogs')->create();
+
+$logs -> user_id = $user->user_id;
+$logs -> questionnaire_id = 1;
+
+$logs->save();
