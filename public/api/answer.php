@@ -12,14 +12,11 @@ if (!auth()) {
 $json = file_get_contents("php://input");
 $contents = json_decode($json, true);
 
-$answers = $contents["answers"];
-$signature = $contents["signature"];
+$answer = ORM::for_table('answers')->create();
 
-$stmt = $db->prepare("
-    INSERT INTO answers(questionnaire_id, data, signature)
-    VALUES (?, ?, ?);
-    ");
+$answer->data = $contents["answers"];
+$answer->signature = $contents["signature"];
 
-$stmt->execute([1, $answers, $signature]);
+$answer->save();
 
 echo "done";

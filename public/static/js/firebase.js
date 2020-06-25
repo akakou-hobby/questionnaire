@@ -10,3 +10,13 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+var firebaseUserIdToken = "";
+
+firebase.auth().onAuthStateChanged(async (user) => {
+  if (user) {
+    firebaseUserIdToken = await user.getIdToken(true);
+    console.log(firebaseUserIdToken);
+  } else {
+  }
+});
