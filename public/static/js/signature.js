@@ -13,7 +13,7 @@ const calc_signature = async (data) => {
 
   const params = new URLSearchParams();
   params.append("blind_digest", blindPair.blind_digest);
-  const signedRes = await axios.post("/api/sign", params);
+  const signedRes = await axios.post("api/sign.php", params);
 
   const signedBlindedSignature = signedRes.data.slice(0, -1);
   const result = unblind(signedBlindedSignature, pubkey, blindPair.unblinder);
