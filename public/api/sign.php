@@ -11,6 +11,16 @@ if (!$user) {
     exit;
 }
 
+$logs = ORM::for_table('signlogs')
+    ->where('user_id', $user->user_id)
+    ->where('questionnaire_id', 1)
+    ->count();
+
+if ($logs) {
+    echo "authentication failed(#2)";
+    exit;
+}
+
 $descriptorspec = array(
     0 => array("pipe", "r"), 
     1 => array("pipe", "w"), 
