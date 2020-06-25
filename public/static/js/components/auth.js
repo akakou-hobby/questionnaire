@@ -17,10 +17,6 @@ Vue.component("auth-form", {
 
       alert("registered!");
     },
-    async verify() {
-      const res = await axios.post("/verify");
-      console.log(res);
-    },
   },
   template: `
     <div>
@@ -33,8 +29,6 @@ Vue.component("auth-form", {
             <input v-model="password"></input>
             <br>
             <button v-on:click="register">register</button>
-            <br>
-            <button v-on:click="verify">verify</button>
         </form>
     </div>
     `,
