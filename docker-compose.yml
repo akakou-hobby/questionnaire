@@ -2,10 +2,12 @@ serv:
   build: .
   volumes:
     - .:/root
+    - /root/vendor
     - ./lib/sign/target/release/sign:/root/sign
+    - ./keys/pri.pem:/root/pri.pem
     - ./keys/pub.pem:/root/public/static/pub.pem
   working_dir: /root
-  command: bash -c 'php -S 0.0.0.0:8000 -t /root/public'
+  command: bash -c 'sqlite3 -init create.sql db.sqlite3 < /dev/null && php -S 0.0.0.0:8000 -t /root/public'
   ports:
     - 8000:8000
   environment:

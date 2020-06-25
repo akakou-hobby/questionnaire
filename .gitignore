@@ -17,3 +17,4 @@ Cargo.lock
 public/static/wasm/
 
 *.pem
+/sign
