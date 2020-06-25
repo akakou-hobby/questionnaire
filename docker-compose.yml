@@ -3,6 +3,7 @@ serv:
   volumes:
     - ./public:/root/public
     - ./templates:/root/templates
+    - ./src:/root/src
     - ./db.sqlite3:/root/db.sqlite3
     - ./credentials.json:/root/credentials.json
     - ./lib/sign/target/release/sign:/root/sign

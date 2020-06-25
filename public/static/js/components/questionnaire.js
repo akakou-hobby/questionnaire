@@ -15,7 +15,7 @@ Vue.component("questionnaire-form", {
     async answer() {
       const answers = JSON.stringify({ data1: this.data1 });
       const signature = await calc_signature(answers);
-      const res = await axios.post("api/answer", {
+      const res = await axios.post("api/answer.php", {
         answers: answers,
         signature: signature,
       });
