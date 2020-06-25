@@ -22,7 +22,7 @@ $cmd = __DIR__ . '/../../sign sign';
 $process = proc_open($cmd, $descriptorspec, $pipes);
 
 if (is_resource($process)) {
-    $blind_digest = $_POST['blind_digest'];
+    $blind_digest = $_POST['blinded_digest'];
 
     fwrite($pipes[0], $blind_digest);
     fclose($pipes[0]);
