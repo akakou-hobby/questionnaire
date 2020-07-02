@@ -20,14 +20,23 @@ const AuthPage = {
   },
   template: `
     <div>
-        <h2>Register</h2>
-          <label>email</label>
-          <input v-model="email"></input>
-          <br>
-          <label>password</label>
-          <input v-model="password"></input>
-          <br>
-          <button v-on:click="register">register</button>
+      <el-card class="box-card login">
+        <h2>Register/Login</h2>
+
+        <el-form label-width="80px">
+          <el-form-item label="Email">
+            <el-input v-model="email"></el-input>
+          </el-form-item>
+
+          <el-form-item label="Password">
+            <el-input v-model="password"></el-input>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button v-on:click="register">register</el-button>
+          </el-form-item>  
+        </el-form>
+      </el-card>
     </div>
     `,
 };
