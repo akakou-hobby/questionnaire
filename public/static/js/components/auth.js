@@ -6,16 +6,28 @@ const AuthPage = {
     };
   },
   methods: {
-    register() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .catch((error) => {
-          alert(error.code);
-          alert(error.message);
-        });
+    async register() {
+      try {
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password);
 
-      alert("registered!");
+        router.push("questionnaire");
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+
+    async login() {
+      try {
+        await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password);
+
+        router.push("questionnaire");
+      } catch (e) {
+        alert(e.message);
+      }
     },
   },
   template: `
@@ -33,7 +45,8 @@ const AuthPage = {
           </el-form-item>
 
           <el-form-item>
-            <el-button v-on:click="register">register</el-button>
+            <el-button v-on:click="register" class="auth-button">register</el-button>
+            <el-button v-on:click="login" class="auth-button">login</el-button>
           </el-form-item>  
         </el-form>
       </el-card>
