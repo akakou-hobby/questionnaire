@@ -1,4 +1,4 @@
-Vue.component("auth-form", {
+const AuthPage = {
   data() {
     return {
       email: "",
@@ -30,4 +30,4 @@ Vue.component("auth-form", {
           <button v-on:click="register">register</button>
     </div>
     `,
-});
+};

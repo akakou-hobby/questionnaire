@@ -5,7 +5,7 @@ var calc_signature;
   calc_signature = module.calc_signature;
 })();
 
-Vue.component("questionnaire-form", {
+const QuestionnairePage = {
   data() {
     return {
       data1: "",
@@ -35,4 +35,4 @@ Vue.component("questionnaire-form", {
             <button v-on:click="answer">submit</button>
     </div>
     `,
-});
+};
