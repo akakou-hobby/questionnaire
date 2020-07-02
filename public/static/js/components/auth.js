@@ -20,7 +20,7 @@ const AuthPage = {
   },
   template: `
     <div>
-      <el-card class="box-card login">
+      <el-card>
         <h2>Register/Login</h2>
 
         <el-form label-width="80px">

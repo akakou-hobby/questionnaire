@@ -24,7 +24,7 @@ const QuestionnairePage = {
   },
   template: `
     <div>
-    <el-card class="box-card login">
+      <el-card>
         <h2>Questionnaire</h2>
         <el-form label-width="80px">
           <el-form-item label="Q1">
@@ -40,7 +40,7 @@ const QuestionnairePage = {
             <el-button v-on:click="answer">submit</el-button>
           </el-form-item>
         </el-form>
-        
+      </el-card>  
     </div>
     `,
 };
