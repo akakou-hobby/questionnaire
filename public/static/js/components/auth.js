@@ -1,4 +1,4 @@
-Vue.component("auth-form", {
+const AuthPage = {
   data() {
     return {
       email: "",
@@ -6,28 +6,50 @@ Vue.component("auth-form", {
     };
   },
   methods: {
-    register() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.email, this.password)
-        .catch((error) => {
-          alert(error.code);
-          alert(error.message);
-        });
+    async register() {
+      try {
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password);
 
-      alert("registered!");
+        router.push("questionnaire");
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+
+    async login() {
+      try {
+        await firebase
+          .auth()
+          .signInWithEmailAndPassword(this.email, this.password);
+
+        router.push("questionnaire");
+      } catch (e) {
+        alert(e.message);
+      }
     },
   },
   template: `
     <div>
-        <h2>Register</h2>
-          <label>email</label>
-          <input v-model="email"></input>
-          <br>
-          <label>password</label>
-          <input v-model="password"></input>
-          <br>
-          <button v-on:click="register">register</button>
+      <el-card>
+        <h2>Register/Login</h2>
+
+        <el-form label-width="80px">
+          <el-form-item label="Email">
+            <el-input v-model="email"></el-input>
+          </el-form-item>
+
+          <el-form-item label="Password">
+            <el-input v-model="password"></el-input>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button v-on:click="register" class="auth-button">register</el-button>
+            <el-button v-on:click="login" class="auth-button">login</el-button>
+          </el-form-item>  
+        </el-form>
+      </el-card>
     </div>
     `,
-});
+};
