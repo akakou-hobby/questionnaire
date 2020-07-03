@@ -9,12 +9,18 @@ const AddQuestionnaire = {
     };
   },
   methods: {
-    async add() {
+    add() {
       this.data.push({
         question: "",
       });
     },
-    async submit() {},
+    async submit() {
+      const res = await axios.post("api/add_questionnaire.php", {
+        data: this.data,
+      });
+
+      alert(res.data);
+    },
   },
   template: `
     <div>
