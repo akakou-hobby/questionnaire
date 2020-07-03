@@ -21,10 +21,11 @@ const QuestionnairePage = {
   methods: {
     async answer() {
       const answers = JSON.stringify(this.data);
-      const signature = await calc_signature(answers);
+      const signature = await calc_signature(answers, this.$route.params.id);
       const res = await axios.post("api/answer.php", {
         answers: answers,
         signature: signature,
+        questionnaire: this.$route.params.id,
       });
       console.log(res);
     },
