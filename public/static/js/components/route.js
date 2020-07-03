@@ -7,7 +7,7 @@ const router = new VueRouter({
       component: AuthPage,
     },
     {
-      path: "/questionnaire",
+      path: "/questionnaire/:id",
       component: QuestionnairePage,
     },
     {

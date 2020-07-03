@@ -12,7 +12,9 @@ const QuestionnairePage = {
     };
   },
   created: async function () {
-    const res = await axios.get("api/question.php");
+    const res = await axios.get(
+      `api/questionnaire.php?id=${this.$route.params.id}`
+    );
     this.data = res.data;
     console.log(this.data);
   },

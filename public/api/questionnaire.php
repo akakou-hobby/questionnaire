@@ -9,8 +9,7 @@ $results = [];
 
 $questionnaire_id = $_GET['id'];
 $questions = ORM::for_table('questionnaires')
-        ->select("questions")
         ->where("id", $questionnaire_id)
-        ->find_array();
+        ->find_one();
 
-echo json_encode($questions);
+echo $questions->questions;
