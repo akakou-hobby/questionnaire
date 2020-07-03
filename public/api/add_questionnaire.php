@@ -15,7 +15,7 @@ $questionnaire = ORM::for_table('questionnaires')->create();
 $json = file_get_contents("php://input");
 $contents = json_decode($json, true);
 
-$questionnaire->questions = $contents["questions"];
+$questionnaire->questions = json_encode($contents["data"]);
 $questionnaire->user_id = $user->user_id;
 
 $questionnaire->save(); 
