@@ -48,7 +48,7 @@ if (is_resource($process)) {
 
 $logs = ORM::for_table('signlogs')->create();
 
-$logs -> user_id = $user->user_id;
-$logs -> questionnaire_id = 1;
+$logs->user_id = $user->user_id;
+$logs->questionnaire_id = 1;
 
 $logs->save();
