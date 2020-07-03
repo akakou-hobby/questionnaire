@@ -39,16 +39,15 @@ fn verify() {
     let mut message = String::new();
     io::stdin().read_line(&mut message).unwrap();
     message.truncate(message.len() - 1);
+    let message = base64::decode(message).unwrap();
+    let message = String::from_utf8(message).unwrap();
 
     let mut signature = String::new();
     io::stdin().read_line(&mut signature).unwrap();
     signature.truncate(signature.len() - 1);
     let signature = base64::decode(signature).unwrap();
     
-    let mut signer_pub_key = String::new();
-    io::stdin().read_line(&mut signer_pub_key).unwrap();
-    signer_pub_key.truncate(signer_pub_key.len() - 1);
-    let signer_pub_key = base64::decode(signer_pub_key).unwrap();
+    let signer_pub_key = fs::read_to_string("../static/pub.pem").unwrap();
     let signer_pub_key = pem::parse(signer_pub_key).unwrap();
     let signer_pub_key = RSAPublicKey::from_pkcs1(&signer_pub_key.contents).unwrap();
 
