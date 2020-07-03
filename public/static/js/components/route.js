@@ -14,5 +14,9 @@ const router = new VueRouter({
       path: "/result",
       component: ResultPage,
     },
+    {
+      path: "/add_questionnaire",
+      component: AddQuestionnaire,
+    },
   ],
 });
