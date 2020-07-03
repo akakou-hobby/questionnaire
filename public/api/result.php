@@ -4,12 +4,7 @@ require __DIR__ . '/../../src/auth.php';
 require __DIR__ . '/../../src/db.php';
 
 
-if (!auth()) {
-    echo "authentication failed";
-    exit;
-}
-
-$result = [];
+$results = [];
 
 $questionnaire_id = 1;
 $answers = ORM::for_table('answers')
@@ -18,7 +13,16 @@ $answers = ORM::for_table('answers')
 
 foreach ($answers as $answer) {
     $data = json_decode($answer["data"]);
-    array_push($result, $data);
+    
+    foreach ($data as $key => $value) {
+        // todo: refactor
+        $result = [
+            'question' => $key,
+            'answer' => $value
+        ];
+    }
+
+    array_push($results, $result);
 }
 
-echo json_encode($result);
+echo json_encode($results);
