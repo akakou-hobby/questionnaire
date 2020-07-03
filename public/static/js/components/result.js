@@ -4,7 +4,7 @@ const ResultPage = {
   },
 
   created: async function () {
-    const res = await axios.get("api/result.php");
+    const res = await axios.get(`api/result.php?id=${this.$route.params.id}`);
     this.results = analysis(res.data);
     console.log(this.results);
     console.log(analysis(res.data));

@@ -6,23 +6,24 @@ require __DIR__ . '/../../src/db.php';
 
 $results = [];
 
-$questionnaire_id = 1;
+$questionnaire_id = $_GET['id'];
 $answers = ORM::for_table('answers')
         ->where("questionnaire_id", $questionnaire_id)
         ->find_array();
 
+
 foreach ($answers as $answer) {
     $data = json_decode($answer["data"]);
     
-    foreach ($data as $key => $value) {
+    foreach ($data as $value) {
         // todo: refactor
         $result = [
-            'question' => $key,
-            'answer' => $value
+            'question' => $value->question,
+            'answer' => $value->answer
         ];
-    }
 
-    array_push($results, $result);
+        array_push($results, $result);
+    }
 }
 
 echo json_encode($results);
