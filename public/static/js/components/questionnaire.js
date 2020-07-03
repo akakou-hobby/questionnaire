@@ -5,7 +5,7 @@ var calc_signature;
   calc_signature = module.calc_signature;
 })();
 
-Vue.component("questionnaire-form", {
+const QuestionnairePage = {
   data() {
     return {
       data1: "",
@@ -24,15 +24,23 @@ Vue.component("questionnaire-form", {
   },
   template: `
     <div>
+      <el-card>
         <h2>Questionnaire</h2>
-            <label>Q1. hogehoge</label>
-            <select name="1" v-model="data1">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button v-on:click="answer">submit</button>
+        <el-form label-width="80px">
+          <el-form-item label="Q1">
+            <el-select name="1" v-model="data1">
+              <el-option value="1">1</el-option>
+              <el-option value="2">2</el-option>
+              <el-option value="3">3</el-option>
+              <el-option value="4">4</el-option>
+            </el-select>
+          </el-form-item >
+
+          <el-form-item>
+            <el-button v-on:click="answer">submit</el-button>
+          </el-form-item>
+        </el-form>
+      </el-card>  
     </div>
     `,
-});
+};

@@ -5,6 +5,7 @@
     <title>questionnaire</title>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
@@ -15,22 +16,39 @@
     <script src="./static/js/firebase.js"></script>
     <script src="./static/js/axios.js"></script>
 
+    <script src="http://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="http://unpkg.com/element-ui/lib/umd/locale/ja.js"></script>
+
     <script type="module" src="./static/js/signature.js"></script>
+    <script src="./static/js/analysis.js"></script>
 
     <script src="./static/js/components/auth.js"></script>
     <script src="./static/js/components/questionnaire.js"></script>
+    <script src="./static/js/components/result.js"></script>
+    <script src="./static/js/components/route.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/element-ui@2.13.2/lib/theme-chalk/index.css"
+    />
   </head>
+
   <body>
-    <div id="auth">
-      <auth-form></auth-form>
-    </div>
-    <div id="questionnaire">
-      <questionnaire-form></questionnaire-form>
+    <div id="app">
+      <el-container>
+        <el-main>
+          <router-view />
+        </el-main>
+      </el-container>
     </div>
 
     <script>
-      new Vue({ el: "#auth" });
-      new Vue({ el: "#questionnaire" });
+      ELEMENT.locale(ELEMENT.lang.ja);
+
+      const app = new Vue({
+        el: "#app",
+        router: router,
+      });
     </script>
   </body>
 </html>
