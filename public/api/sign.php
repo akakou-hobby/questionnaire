@@ -5,6 +5,8 @@ require  __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../src/auth.php';
 require __DIR__ . '/../../src/db.php';
 
+$questionnaire_id = $_POST['questionnaire'];
+
 $user = auth();
 if (!$user) {
     echo "authentication failed";
@@ -13,7 +15,7 @@ if (!$user) {
 
 $logs = ORM::for_table('signlogs')
     ->where('user_id', $user->user_id)
-    ->where('questionnaire_id', 1)
+    ->where('questionnaire_id', $questionnaire_id)
     ->count();
 
 if ($logs) {
@@ -49,6 +51,6 @@ if (is_resource($process)) {
 $logs = ORM::for_table('signlogs')->create();
 
 $logs->user_id = $user->user_id;
-$logs->questionnaire_id = 1;
+$logs->questionnaire_id = $questionnaire_id;
 
 $logs->save();

@@ -7,12 +7,16 @@ const router = new VueRouter({
       component: AuthPage,
     },
     {
-      path: "/questionnaire",
+      path: "/questionnaire/:id",
       component: QuestionnairePage,
     },
     {
-      path: "/result",
+      path: "/result/:id",
       component: ResultPage,
+    },
+    {
+      path: "/add_questionnaire",
+      component: AddQuestionnaire,
     },
   ],
 });
