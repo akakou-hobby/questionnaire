@@ -16,6 +16,7 @@ $answer = ORM::for_table('answers')->create();
 
 $answer->data = $contents["answers"];
 $answer->signature = $contents["signature"];
+$answer->questionnaire_id = 1;
 
 $answer->save();
 
