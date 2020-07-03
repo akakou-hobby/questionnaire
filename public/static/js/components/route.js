@@ -11,8 +11,8 @@ const router = new VueRouter({
       component: QuestionnairePage,
     },
     {
-      path: "/analysis",
-      component: AnalysisPage,
+      path: "/result",
+      component: ResultPage,
     },
   ],
 });

@@ -1,4 +1,4 @@
-const AnalysisPage = {
+const ResultPage = {
   data() {
     return { results: [] };
   },
