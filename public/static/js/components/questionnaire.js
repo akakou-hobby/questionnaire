@@ -8,16 +8,24 @@ var calc_signature;
 const QuestionnairePage = {
   data() {
     return {
-      data1: "",
+      data: {},
     };
+  },
+  created: async function () {
+    const res = await axios.get(
+      `api/questionnaire.php?id=${this.$route.params.id}`
+    );
+    this.data = res.data;
+    console.log(this.data);
   },
   methods: {
     async answer() {
-      const answers = JSON.stringify({ data1: this.data1 });
-      const signature = await calc_signature(answers);
+      const answers = JSON.stringify(this.data);
+      const signature = await calc_signature(answers, this.$route.params.id);
       const res = await axios.post("api/answer.php", {
         answers: answers,
         signature: signature,
+        questionnaire: this.$route.params.id,
       });
       console.log(res);
     },
@@ -26,15 +34,13 @@ const QuestionnairePage = {
     <div>
       <el-card>
         <h2>Questionnaire</h2>
-        <el-form label-width="80px">
-          <el-form-item label="Q1">
-            <el-select name="1" v-model="data1">
-              <el-option value="1">1</el-option>
-              <el-option value="2">2</el-option>
-              <el-option value="3">3</el-option>
-              <el-option value="4">4</el-option>
-            </el-select>
-          </el-form-item >
+        <el-form label-width="80px">  
+          <el-form-item v-for="pair in data">          
+            <el-card>
+              <p>{{pair.question}}</p>
+              <el-input v-model="pair.answer">submit</el-input>
+            </el-card>
+          </el-form-item>
 
           <el-form-item>
             <el-button v-on:click="answer">submit</el-button>
