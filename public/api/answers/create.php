@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../../src/auth.php';
-require __DIR__ . '/../../src/db.php';
+require __DIR__ . '/../../../src/auth.php';
+require __DIR__ . '/../../../src/db.php';
 
 
 if (!auth()) {
@@ -14,7 +14,7 @@ $contents = json_decode($json, true);
 
 $encoded_answers = base64_encode($contents["answers"]);
 
-$cmd = __DIR__ . '/../../sign verify';
+$cmd = __DIR__ . '/../../../sign verify';
 
 $descriptorspec = array(
     0 => array("pipe", "r"), 

@@ -18,10 +18,10 @@ $logs = ORM::for_table('signlogs')
     ->where('questionnaire_id', $questionnaire_id)
     ->count();
 
-if ($logs) {
-    echo "authentication failed(#2)";
-    exit;
-}
+// if ($logs) {
+//     echo "[error] same user can't post mutltple.";
+//     exit;
+// }
 
 $descriptorspec = array(
     0 => array("pipe", "r"), 

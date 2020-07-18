@@ -91,11 +91,11 @@ fn verify() -> Result<(), Box<dyn Error>>{
         }
     };
     
-    let signer_pub_key = match fs::read_to_string("../static/pub.pem") {
+    let signer_pub_key = match fs::read_to_string("../../static/pub.pem") {
         Ok(res) => res,
         Err(err) => {
             let path = env::current_dir()?;
-            eprintln!("[error] {}/../../pri.pem not found", path.to_string_lossy());
+            eprintln!("[error] {}../../static/pub.pem not found", path.to_string_lossy());
             return Err(Box::new(err));
         }
     };
