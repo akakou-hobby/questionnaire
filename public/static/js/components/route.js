@@ -6,17 +6,18 @@ const router = new VueRouter({
       path: "/auth",
       component: AuthPage,
     },
+
     {
-      path: "/questionnaire/:id",
-      component: QuestionnairePage,
+      path: "/questionnaires/new",
+      component: CreateQuestionnairePage,
     },
     {
-      path: "/result/:id",
-      component: ResultPage,
+      path: "/questionnaires/:id/",
+      component: ShowAnswersPage,
     },
     {
-      path: "/add_questionnaire",
-      component: AddQuestionnaire,
+      path: "/questionnaires/:id/new",
+      component: CreateAnswerPage,
     },
   ],
 });
