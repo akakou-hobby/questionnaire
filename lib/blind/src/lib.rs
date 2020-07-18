@@ -3,8 +3,8 @@ use wasm_bindgen::prelude::*;
 
 use rsa_fdh;
 use rsa_fdh::blind;
-use rsa::{RSAPrivateKey, RSAPublicKey};
-use sha2::{Sha256, Digest};
+use rsa::RSAPublicKey;
+use sha2::Sha256;
 
 use pem;
 use rand;
@@ -23,8 +23,19 @@ struct BlindPair {
 pub fn blind(message: &str, pubkey: &str) -> String {    
     let mut rng = rand::thread_rng();
 
-    let signer_pub_key = pem::parse(pubkey).unwrap();
-    let signer_pub_key = RSAPublicKey::from_pkcs1(&signer_pub_key.contents).unwrap();
+    let signer_pub_key = match pem::parse(pubkey) {
+        Ok(result) => result,
+        Err(err) => {
+            return format!("[error] parase pem\n{}", err.description())
+        }  
+    };
+
+    let signer_pub_key = match RSAPublicKey::from_pkcs1(&signer_pub_key.contents) {
+        Ok(result) => result,
+        Err(_) => {
+            return "[error] parase pkcs".to_string()
+        }  
+    };
 
     let digest = blind::hash_message::<Sha256, _>(&signer_pub_key, message.as_bytes()).unwrap();
     let (blinded_digest, unblinder) = blind::blind(&mut rng, &signer_pub_key, &digest);
@@ -39,11 +50,33 @@ pub fn blind(message: &str, pubkey: &str) -> String {
 
 #[wasm_bindgen]
 pub fn unblind(blind_signature: &str, pubkey: &str, unblinder: &str) -> String {
-    let signer_pub_key = pem::parse(pubkey).unwrap();
-    let signer_pub_key = RSAPublicKey::from_pkcs1(&signer_pub_key.contents).unwrap();
+    let signer_pub_key = match pem::parse(pubkey) {
+        Ok(result) => result,
+        Err(err) => {
+            return format!("[error] parase pem\n{}", err.description())
+        }  
+    };
+
+    let signer_pub_key = match RSAPublicKey::from_pkcs1(&signer_pub_key.contents) {
+        Ok(result) => result,
+        Err(_) => {
+            return "[error] parase pkcs".to_string()
+        }  
+    };
+
+    let blind_signature = match base64::decode(blind_signature) {
+        Ok(result) => result,
+        Err(_) => {
+            return "[error] decode signature".to_string()
+        }  
+    };
     
-    let blind_signature = base64::decode(blind_signature).unwrap();
-    let unblinder = base64::decode(unblinder).unwrap();
+    let unblinder = match base64::decode(unblinder) {
+        Ok(result) => result,
+        Err(_) => {
+            return "[error] decode unblinder".to_string()
+        }  
+    };
 
     let signature = blind::unblind(&signer_pub_key, &blind_signature, &unblinder);
     base64::encode(signature)
