@@ -17,6 +17,11 @@ const calcSignature = async (data, id) => {
 
   const signedRes = await axios.post(`api/sign.php`, params);
 
+  if (signedRes.data.slice(0, 7) == "[error]") {
+    alert(signedRes.data);
+    throw Error(signedRes.data);
+  }
+
   const signedBlindedSignature = signedRes.data.slice(0, -1);
   const result = unblind(signedBlindedSignature, pubkey, blindPair.unblinder);
   console.log("signature:", result);
