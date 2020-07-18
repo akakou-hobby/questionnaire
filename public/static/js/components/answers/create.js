@@ -1,11 +1,11 @@
-var calc_signature;
+var calcSignature;
 
 (async () => {
-  const module = await import("../signature.js");
-  calc_signature = module.calc_signature;
+  const module = await import("../../signature.js");
+  calcSignature = module.calcSignature;
 })();
 
-const QuestionnairePage = {
+const CreateAnswerPage = {
   data() {
     return {
       data: {},
@@ -13,7 +13,7 @@ const QuestionnairePage = {
   },
   created: async function () {
     const res = await axios.get(
-      `api/questionnaire.php?id=${this.$route.params.id}`
+      `api/questionnaires/show.php?id=${this.$route.params.id}`
     );
     this.data = res.data;
     console.log(this.data);
@@ -21,8 +21,8 @@ const QuestionnairePage = {
   methods: {
     async answer() {
       const answers = JSON.stringify(this.data);
-      const signature = await calc_signature(answers, this.$route.params.id);
-      const res = await axios.post("api/answer.php", {
+      const signature = await calcSignature(answers, this.$route.params.id);
+      const res = await axios.post("api/answers/create.php", {
         answers: answers,
         signature: signature,
         questionnaire: this.$route.params.id,

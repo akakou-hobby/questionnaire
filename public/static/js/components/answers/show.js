@@ -1,10 +1,12 @@
-const ResultPage = {
+const ShowAnswersPage = {
   data() {
     return { results: [] };
   },
 
   created: async function () {
-    const res = await axios.get(`api/result.php?id=${this.$route.params.id}`);
+    const res = await axios.get(
+      `api/answers/show.php?id=${this.$route.params.id}`
+    );
     this.results = analysis(res.data);
     console.log(this.results);
     console.log(analysis(res.data));

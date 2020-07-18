@@ -19,7 +19,7 @@ $logs = ORM::for_table('signlogs')
     ->count();
 
 if ($logs) {
-    echo "authentication failed(#2)";
+    echo "[error] same user can't post mutltple.";
     exit;
 }
 

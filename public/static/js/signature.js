@@ -4,7 +4,7 @@ import init, { blind, unblind } from "../wasm/signature.js";
   await init();
 })();
 
-const calc_signature = async (data, id) => {
+const calcSignature = async (data, id) => {
   const pubkeyRes = await axios.get("../static/pub.pem");
   const pubkey = pubkeyRes.data;
 
@@ -24,4 +24,4 @@ const calc_signature = async (data, id) => {
   return result;
 };
 
-export { calc_signature };
+export { calcSignature };
