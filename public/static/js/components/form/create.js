@@ -1,4 +1,4 @@
-const AddQuestionnaire = {
+const CreateFormPage = {
   data() {
     return {
       data: [
@@ -15,20 +15,22 @@ const AddQuestionnaire = {
       });
     },
     async submit() {
-      const res = await axios.post("api/add_questionnaire.php", {
+      const res = await axios.post("api/forms/create.php", {
         data: this.data,
       });
 
-      alert(res.data);
+      router.push(`/admin/${res.data}/`);
     },
   },
   template: `
     <div>
       <el-card>
-        <h2>Questionnaire</h2>
-        <el-form label-width="80px">  
-          <el-form-item v-for="pair in data">          
-            <el-input v-model="pair.question">submit</el-input>
+        <div slot="header">
+          <span>New Form</span>
+        </div>
+        <el-form label-width="80px">
+          <el-form-item v-for="(pair, index) in data">          
+            Q.{{index + 1}} <el-input v-model="pair.question"></el-input>
           </el-form-item>
 
           <el-form-item>

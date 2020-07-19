@@ -5,23 +5,23 @@ require  __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../src/auth.php';
 require __DIR__ . '/../../src/db.php';
 
-$questionnaire_id = $_POST['questionnaire'];
+$forms_id = $_POST['form'];
 
-$user = auth();
-if (!$user) {
-    echo "authentication failed";
-    exit;
-}
+// $user = auth();
+// if (!$user) {
+//     echo "authentication failed";
+//     exit;
+// }
 
-$logs = ORM::for_table('signlogs')
-    ->where('user_id', $user->user_id)
-    ->where('questionnaire_id', $questionnaire_id)
-    ->count();
+// $logs = ORM::for_table('signlogs')
+//     ->where('user_id', $user->user_id)
+//     ->where('form_id', $form_id)
+//     ->count();
 
-if ($logs) {
-    echo "authentication failed(#2)";
-    exit;
-}
+// if ($logs) {
+//     echo "[error] same user can't post mutltple.";
+//     exit;
+// }
 
 $descriptorspec = array(
     0 => array("pipe", "r"), 
@@ -48,9 +48,9 @@ if (is_resource($process)) {
     proc_close($process);
 }
 
-$logs = ORM::for_table('signlogs')->create();
+// $logs = ORM::for_table('signlogs')->create();
 
-$logs->user_id = $user->user_id;
-$logs->questionnaire_id = $questionnaire_id;
+// $logs->user_id = $user->user_id;
+// $logs->form_id = $form_id;
 
-$logs->save();
+// $logs->save();

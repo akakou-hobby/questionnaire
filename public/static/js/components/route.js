@@ -3,20 +3,16 @@ const router = new VueRouter({
   // base:'/app/public/',
   routes: [
     {
-      path: "/auth",
-      component: AuthPage,
+      path: "/",
+      component: CreateFormPage,
     },
     {
-      path: "/questionnaire/:id",
-      component: QuestionnairePage,
+      path: "/admin/:id",
+      component: ShowAnswersPage,
     },
     {
-      path: "/result/:id",
-      component: ResultPage,
-    },
-    {
-      path: "/add_questionnaire",
-      component: AddQuestionnaire,
+      path: "/:id/",
+      component: CreateAnswerPage,
     },
   ],
 });

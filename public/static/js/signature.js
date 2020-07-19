@@ -4,7 +4,7 @@ import init, { blind, unblind } from "../wasm/signature.js";
   await init();
 })();
 
-const calc_signature = async (data, id) => {
+const calcSignature = async (data, id) => {
   const pubkeyRes = await axios.get("../static/pub.pem");
   const pubkey = pubkeyRes.data;
 
@@ -13,9 +13,14 @@ const calc_signature = async (data, id) => {
 
   const params = new URLSearchParams();
   params.append("blinded_digest", blindPair.blinded_digest);
-  params.append("questionnaire", id);
+  params.append("form", id);
 
   const signedRes = await axios.post(`api/sign.php`, params);
+
+  if (signedRes.data.slice(0, 7) == "[error]") {
+    alert(signedRes.data);
+    throw Error(signedRes.data);
+  }
 
   const signedBlindedSignature = signedRes.data.slice(0, -1);
   const result = unblind(signedBlindedSignature, pubkey, blindPair.unblinder);
@@ -24,4 +29,4 @@ const calc_signature = async (data, id) => {
   return result;
 };
 
-export { calc_signature };
+export { calcSignature };

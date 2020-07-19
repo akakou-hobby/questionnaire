@@ -1,4 +1,4 @@
-const analysis = (array) => {
+const compress = (array) => {
   const results = [];
 
   array.forEach((data) => {
@@ -20,6 +20,19 @@ const analysis = (array) => {
     };
 
     results.push(result);
+  });
+
+  return results;
+};
+
+const analysis = (array) => {
+  const compressed = compress(array);
+  const results = compressed.sort((a, b) => {
+    if (a.question > b.question) {
+      return 1;
+    } else {
+      return -1;
+    }
   });
 
   return results;

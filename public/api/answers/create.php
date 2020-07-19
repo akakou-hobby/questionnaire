@@ -1,20 +1,15 @@
 <?php
 
-require __DIR__ . '/../../src/auth.php';
-require __DIR__ . '/../../src/db.php';
+require __DIR__ . '/../../../src/auth.php';
+require __DIR__ . '/../../../src/db.php';
 
-
-if (!auth()) {
-    echo "authentication failed";
-    exit;
-}
 
 $json = file_get_contents("php://input");
 $contents = json_decode($json, true);
 
 $encoded_answers = base64_encode($contents["answers"]);
 
-$cmd = __DIR__ . '/../../sign verify';
+$cmd = __DIR__ . '/../../../sign verify';
 
 $descriptorspec = array(
     0 => array("pipe", "r"), 
@@ -45,7 +40,12 @@ $answer = ORM::for_table('answers')->create();
 
 $answer->data = $contents["answers"];
 $answer->signature = $contents["signature"];
-$answer->questionnaire_id = $contents["questionnaire"];
+
+$user_token = $contents["user_token"];
+$answer->form_id = ORM::for_table('forms')
+        ->where("user_token", $user_token)
+        ->find_one()
+        ->id;
 
 $answer->save();
 
