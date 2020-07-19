@@ -24,7 +24,7 @@ const CreateQuestionnairePage = {
   },
   template: `
     <div>
-      <el-card class="main">
+      <el-card>
         <div slot="header">
           <span>New Form</span>
         </div>

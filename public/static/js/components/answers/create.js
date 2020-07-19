@@ -56,7 +56,7 @@ const CreateAnswerPage = {
   },
   template: `
     <div>
-      <el-card class="main">
+      <el-card>
         <div slot="header">
           <span>Form</span>
         </div>
