@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS forms (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id VARCHAR(100),
-    questions VARCHAR(2000)
+    questions VARCHAR(2000),
+    create_token INTEGER,
+    show_token INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS answers (
