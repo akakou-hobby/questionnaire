@@ -57,13 +57,13 @@ const CreateAnswerPage = {
   template: `
     <div>
       <el-card>
-        <h2>Questionnaire</h2>
+        <div slot="header">
+          <span>Form</span>
+        </div>
         <el-form label-width="80px">  
-          <el-form-item v-for="pair in data">          
-            <el-card>
-              <p>{{pair.question}}</p>
-              <el-input v-model="pair.answer">submit</el-input>
-            </el-card>
+          <el-form-item v-for="(pair, index) in data">          
+            <p>Q{{index + 1}}. {{pair.question}}</p>
+            <el-input v-model="pair.answer">submit</el-input>
           </el-form-item>
 
           <el-form-item>

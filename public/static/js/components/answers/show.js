@@ -14,12 +14,18 @@ const ShowAnswersPage = {
   template: `
     <div>
       <el-card>
-        <h2>Analyis</h2>
-          <el-card v-for="result in results">
-            Q. {{ result.question }} <br>
-            A. {{ result.answer }} <br>
+        <div slot="header">
+          <span>Answers</span>
+        </div>
+
+        <div v-for="(result, index) in results">
+          <el-card>
+            Q{{index + 1}}. {{ result.question }} <br>
+            A{{index + 1}}. {{ result.answer }} <br>
             Count: {{ result.count }}
           </el-card>
+          <br>
+        </div>
       </el-card>
     </div>
     `,
