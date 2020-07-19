@@ -15,6 +15,8 @@ const ShowAnswersPage = {
 
     this.answers = analysis(res.data.answers);
     this.url = location.href.split("#")[0] + "#/" + res.data.user_token;
+
+    console.log(this.answers);
   },
   template: `
     <div>
@@ -27,7 +29,7 @@ const ShowAnswersPage = {
           <el-card>
             Q{{index + 1}}. {{ answer.question }} <br>
             A{{index + 1}}. {{ answer.answer }} <br>
-            Count: {{ result.count }}
+            Count: {{ answer.count }}
           </el-card>
           <br>
         </div>
