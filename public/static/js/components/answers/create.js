@@ -34,7 +34,7 @@ const CreateAnswerPage = {
   },
   created: async function () {
     const res = await axios.get(
-      `api/forms/show.php?id=${this.$route.params.id}`
+      `api/forms/show.php?user_token=${this.$route.params.id}`
     );
     this.data = res.data;
     console.log(this.data);
@@ -52,7 +52,7 @@ const CreateAnswerPage = {
       const res = await axios.post("api/answers/create.php", {
         answers: answers,
         signature: signature,
-        form: this.$route.params.id,
+        user_token: this.$route.params.id,
       });
       alert("done");
     },

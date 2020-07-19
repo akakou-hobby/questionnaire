@@ -7,9 +7,9 @@ require __DIR__ . '/../../../src/db.php';
 
 $results = [];
 
-$form_id = $_GET['id'];
+$user_token = $_GET['user_token'];
 $questions = ORM::for_table('forms')
-        ->where("id", $form_id)
+        ->where("user_token", $user_token)
         ->find_one();
 
 echo $questions->questions;
