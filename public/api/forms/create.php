@@ -5,15 +5,15 @@ require __DIR__ . '/../../../src/auth.php';
 require __DIR__ . '/../../../src/db.php';
 
 
-$questionnaire = ORM::for_table('questionnaires')->create();
+$form = ORM::for_table('forms')->create();
 
 $json = file_get_contents("php://input");
 $contents = json_decode($json, true);
 
-$questionnaire->questions = json_encode($contents["data"]);
-$questionnaire->user_id = $user->user_id;
+$form->questions = json_encode($contents["data"]);
+$form->user_id = $user->user_id;
 
-$questionnaire->save(); 
+$form->save(); 
 
-echo $questionnaire->id;
+echo $form->id;
 ?>

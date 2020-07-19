@@ -13,7 +13,7 @@ const calcSignature = async (data, id) => {
 
   const params = new URLSearchParams();
   params.append("blinded_digest", blindPair.blinded_digest);
-  params.append("questionnaire", id);
+  params.append("form", id);
 
   const signedRes = await axios.post(`api/sign.php`, params);
 

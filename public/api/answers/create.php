@@ -40,7 +40,7 @@ $answer = ORM::for_table('answers')->create();
 
 $answer->data = $contents["answers"];
 $answer->signature = $contents["signature"];
-$answer->questionnaire_id = $contents["questionnaire"];
+$answer->form_id = $contents["form"];
 
 $answer->save();
 

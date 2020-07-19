@@ -6,9 +6,9 @@ require __DIR__ . '/../../../src/db.php';
 
 $results = [];
 
-$questionnaire_id = $_GET['id'];
+$form_id = $_GET['id'];
 $answers = ORM::for_table('answers')
-        ->where("questionnaire_id", $questionnaire_id)
+        ->where("form_id", $form_id)
         ->find_array();
 
 

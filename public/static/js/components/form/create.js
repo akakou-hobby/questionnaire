@@ -1,4 +1,4 @@
-const CreateQuestionnairePage = {
+const CreateFormPage = {
   data() {
     return {
       data: [
@@ -15,7 +15,7 @@ const CreateQuestionnairePage = {
       });
     },
     async submit() {
-      const res = await axios.post("api/questionnaires/create.php", {
+      const res = await axios.post("api/forms/create.php", {
         data: this.data,
       });
 

@@ -4,7 +4,7 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      component: CreateQuestionnairePage,
+      component: CreateFormPage,
     },
     {
       path: "/questionnaires/:id/",
