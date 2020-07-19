@@ -4,11 +4,6 @@ require  __DIR__ . '/../../../vendor/autoload.php';
 require __DIR__ . '/../../../src/auth.php';
 require __DIR__ . '/../../../src/db.php';
 
-$user = auth();
-if (!$user) {
-    echo "authentication failed";
-    exit;
-}
 
 $questionnaire = ORM::for_table('questionnaires')->create();
 

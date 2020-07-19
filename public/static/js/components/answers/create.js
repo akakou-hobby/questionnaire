@@ -5,6 +5,36 @@ var calcSignature;
   calcSignature = module.calcSignature;
 })();
 
+const authUIConfig = {
+  signInFlow: "popup",
+  callbacks: {
+    signInSuccessWithAuthResult: async (
+      { user, isNewUser, credential },
+      redirectUrl
+    ) => {
+      const answers = JSON.stringify(this.data);
+      const signature = await calcSignature(answers, this.$route.params.id);
+      const res = await axios.post("api/answers/create.php", {
+        answers: answers,
+        signature: signature,
+        questionnaire: this.$route.params.id,
+      });
+      alert("done");
+    },
+    signInFailure: (error) => {
+      alert(error);
+    },
+    uiShown: () => {},
+  },
+  signInOptions: [
+    {
+      provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      defaultCountry: "JP",
+      whitelistedCountries: ["JP", "+81"],
+    },
+  ],
+};
+
 const CreateAnswerPage = {
   data() {
     return {
@@ -20,14 +50,8 @@ const CreateAnswerPage = {
   },
   methods: {
     async answer() {
-      const answers = JSON.stringify(this.data);
-      const signature = await calcSignature(answers, this.$route.params.id);
-      const res = await axios.post("api/answers/create.php", {
-        answers: answers,
-        signature: signature,
-        questionnaire: this.$route.params.id,
-      });
-      console.log(res);
+      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start("#firebaseui-auth-container", authUIConfig);
     },
   },
   template: `
@@ -44,6 +68,7 @@ const CreateAnswerPage = {
 
           <el-form-item>
             <el-button v-on:click="answer">submit</el-button>
+            <div id="firebaseui-auth-container"></div>
           </el-form-item>
         </el-form>
       </el-card>  
