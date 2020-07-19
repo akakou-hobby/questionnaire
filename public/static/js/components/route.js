@@ -7,11 +7,11 @@ const router = new VueRouter({
       component: CreateFormPage,
     },
     {
-      path: "/questionnaires/:id/",
+      path: "/:id/:token",
       component: ShowAnswersPage,
     },
     {
-      path: "/questionnaires/:id/new",
+      path: "/:id/",
       component: CreateAnswerPage,
     },
   ],
