@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS forms (
     user_id VARCHAR(100),
     questions VARCHAR(2000),
     admin_token INTEGER,
-    user_token INTEGER
+    user_token INTEGER,
+    prikey VARCHAR(4000),
+    pubkey VARCHAR(4000)
 );
 
 CREATE TABLE IF NOT EXISTS answers (
