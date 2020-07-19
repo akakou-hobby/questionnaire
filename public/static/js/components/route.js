@@ -3,7 +3,7 @@ const router = new VueRouter({
   // base:'/app/public/',
   routes: [
     {
-      path: "/questionnaires/new",
+      path: "/",
       component: CreateQuestionnairePage,
     },
     {
