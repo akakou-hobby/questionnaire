@@ -4,10 +4,7 @@ import init, { blind, unblind } from "../wasm/signature.js";
   await init();
 })();
 
-const calcSignature = async (data, id) => {
-  const pubkeyRes = await axios.get("../static/pub.pem");
-  const pubkey = pubkeyRes.data;
-
+const calcSignature = async (data, id, pubkey) => {
   const blindPairStr = blind(data, pubkey);
   const blindPair = JSON.parse(blindPairStr);
 
