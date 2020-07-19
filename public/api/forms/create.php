@@ -14,12 +14,12 @@ $form->questions = json_encode($contents["data"]);
 $form->user_id = $user->user_id;
 
 $bytes = openssl_random_pseudo_bytes(16);
-$form->create_token = bin2hex($bytes);
+$form->user_token = bin2hex($bytes);
 
 $bytes = openssl_random_pseudo_bytes(16);
-$form->show_token = bin2hex($bytes);
+$form->admin_token = bin2hex($bytes);
 
 $form->save(); 
 
-echo $form->show_token;
+echo $form->admin_token;
 ?>
