@@ -30,7 +30,7 @@ pub fn blind(message: &str, pubkey: &str) -> String {
         }  
     };
 
-    let signer_pub_key = match RSAPublicKey::from_pkcs1(&signer_pub_key.contents) {
+    let signer_pub_key = match RSAPublicKey::from_pkcs8(&signer_pub_key.contents) {
         Ok(result) => result,
         Err(_) => {
             return "[error] parase pkcs".to_string()
@@ -57,7 +57,7 @@ pub fn unblind(blind_signature: &str, pubkey: &str, unblinder: &str) -> String {
         }  
     };
 
-    let signer_pub_key = match RSAPublicKey::from_pkcs1(&signer_pub_key.contents) {
+    let signer_pub_key = match RSAPublicKey::from_pkcs8(&signer_pub_key.contents) {
         Ok(result) => result,
         Err(_) => {
             return "[error] parase pkcs".to_string()

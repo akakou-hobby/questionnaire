@@ -40,7 +40,7 @@ fn sign() -> Result<(), Box<dyn Error>>  {
         }
     };
 
-    let signer_priv_key = match RSAPrivateKey::from_pkcs1(&signer_priv_key.contents) {
+    let signer_priv_key = match RSAPrivateKey::from_pkcs8(&signer_priv_key.contents) {
         Ok(res) => res,
         Err(err) => {
             eprintln!("[error] parse pkcs");
@@ -108,7 +108,7 @@ fn verify() -> Result<(), Box<dyn Error>>{
         }
     };
 
-    let signer_pub_key = match RSAPublicKey::from_pkcs1(&signer_pub_key.contents) {
+    let signer_pub_key = match RSAPublicKey::from_pkcs8(&signer_pub_key.contents) {
         Ok(res) => res,
         Err(err) => {
             eprintln!("[error] parse pkcs1");
