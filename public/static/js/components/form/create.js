@@ -19,7 +19,7 @@ const CreateFormPage = {
         data: this.data,
       });
 
-      alert(res.data);
+      router.push(`/admin/${res.data}/`);
     },
   },
   template: `

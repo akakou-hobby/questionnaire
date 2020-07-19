@@ -1,27 +1,32 @@
 const ShowAnswersPage = {
   data() {
-    return { results: [] };
+    return {
+      answers: [],
+      url: "",
+    };
   },
 
   created: async function () {
     const res = await axios.get(
-      `api/answers/show.php?id=${this.$route.params.id}`
+      `api/answers/show.php?admin_token=${this.$route.params.id}`
     );
-    this.results = analysis(res.data);
-    console.log(this.results);
-    console.log(analysis(res.data));
+
+    console.log(res);
+
+    this.answers = analysis(res.data.answers);
+    this.url = location.href.split("#")[0] + "#/" + res.data.user_token;
   },
   template: `
     <div>
       <el-card>
         <div slot="header">
-          <span>Answers</span>
+          <span>Answers ({{url}})</span>
         </div>
 
-        <div v-for="(result, index) in results">
+        <div v-for="(answer, index) in answers">
           <el-card>
-            Q{{index + 1}}. {{ result.question }} <br>
-            A{{index + 1}}. {{ result.answer }} <br>
+            Q{{index + 1}}. {{ answer.question }} <br>
+            A{{index + 1}}. {{ answer.answer }} <br>
             Count: {{ result.count }}
           </el-card>
           <br>

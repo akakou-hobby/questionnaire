@@ -7,7 +7,7 @@ const router = new VueRouter({
       component: CreateFormPage,
     },
     {
-      path: "/admin/",
+      path: "/admin/:id",
       component: ShowAnswersPage,
     },
     {
