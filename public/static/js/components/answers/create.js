@@ -62,10 +62,8 @@ const CreateAnswerPage = {
         </div>
         <el-form label-width="80px">  
           <el-form-item v-for="(pair, index) in data">          
-            <el-card>
-              <p>Q{{index + 1}}. {{pair.question}}</p>
-              <el-input v-model="pair.answer">submit</el-input>
-            </el-card>
+            <p>Q{{index + 1}}. {{pair.question}}</p>
+            <el-input v-model="pair.answer">submit</el-input>
           </el-form-item>
 
           <el-form-item>
