@@ -11,16 +11,7 @@ const authUIConfig = {
     signInSuccessWithAuthResult: async (
       { user, isNewUser, credential },
       redirectUrl
-    ) => {
-      const answers = JSON.stringify(this.data);
-      const signature = await calcSignature(answers, this.$route.params.id);
-      const res = await axios.post("api/answers/create.php", {
-        answers: answers,
-        signature: signature,
-        questionnaire: this.$route.params.id,
-      });
-      alert("done");
-    },
+    ) => {},
     signInFailure: (error) => {
       alert(error);
     },
@@ -43,15 +34,27 @@ const CreateAnswerPage = {
   },
   created: async function () {
     const res = await axios.get(
-      `api/questionnaires/show.php?id=${this.$route.params.id}`
+      `api/forms/show.php?user_token=${this.$route.params.id}`
     );
     this.data = res.data;
     console.log(this.data);
   },
   methods: {
     async answer() {
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start("#firebaseui-auth-container", authUIConfig);
+      this._answer();
+      // const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // ui.start("#firebaseui-auth-container", authUIConfig);
+    },
+
+    async _answer() {
+      const answers = JSON.stringify(this.data);
+      const signature = await calcSignature(answers, this.$route.params.id);
+      const res = await axios.post("api/answers/create.php", {
+        answers: answers,
+        signature: signature,
+        user_token: this.$route.params.id,
+      });
+      alert("done");
     },
   },
   template: `

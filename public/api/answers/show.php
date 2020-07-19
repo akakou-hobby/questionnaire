@@ -4,11 +4,22 @@ require __DIR__ . '/../../../src/auth.php';
 require __DIR__ . '/../../../src/db.php';
 
 
-$results = [];
+$results = [
+    "user_token" => "",
+    "answers" => []  
+];
 
-$questionnaire_id = $_GET['id'];
+$admin_token = $_GET['admin_token'];
+
+$form = ORM::for_table('forms')
+        ->where("admin_token", $admin_token)
+        ->find_one();
+
+$results["user_token"] = $form->user_token;
+
+
 $answers = ORM::for_table('answers')
-        ->where("questionnaire_id", $questionnaire_id)
+        ->where("form_id", $form->id)
         ->find_array();
 
 
@@ -22,7 +33,7 @@ foreach ($answers as $answer) {
             'answer' => $value->answer
         ];
 
-        array_push($results, $result);
+        array_push($results["answers"], $result);
     }
 }
 

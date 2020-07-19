@@ -4,14 +4,14 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      component: CreateQuestionnairePage,
+      component: CreateFormPage,
     },
     {
-      path: "/questionnaires/:id/",
+      path: "/admin/:id",
       component: ShowAnswersPage,
     },
     {
-      path: "/questionnaires/:id/new",
+      path: "/:id/",
       component: CreateAnswerPage,
     },
   ],

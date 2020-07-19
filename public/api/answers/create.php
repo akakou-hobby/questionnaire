@@ -40,7 +40,12 @@ $answer = ORM::for_table('answers')->create();
 
 $answer->data = $contents["answers"];
 $answer->signature = $contents["signature"];
-$answer->questionnaire_id = $contents["questionnaire"];
+
+$user_token = $contents["user_token"];
+$answer->form_id = ORM::for_table('forms')
+        ->where("user_token", $user_token)
+        ->find_one()
+        ->id;
 
 $answer->save();
 
