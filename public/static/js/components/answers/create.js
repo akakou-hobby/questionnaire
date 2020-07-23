@@ -47,8 +47,12 @@ const CreateAnswerPage = {
     },
 
     async _answer() {
-      const answers = JSON.stringify(this.data);
-      const signature = await calcSignature(answers, this.$route.params.id);
+      const answers = JSON.stringify(this.data.questions);
+      const signature = await calcSignature(
+        answers,
+        this.$route.params.id,
+        this.data.pubkey
+      );
       const res = await axios.post("api/answers/create.php", {
         answers: answers,
         signature: signature,
@@ -64,7 +68,7 @@ const CreateAnswerPage = {
           <span>Form</span>
         </div>
         <el-form label-width="80px">  
-          <el-form-item v-for="(pair, index) in data">          
+          <el-form-item v-for="(pair, index) in data.questions">          
             <p>Q{{index + 1}}. {{pair.question}}</p>
             <el-input v-model="pair.answer">submit</el-input>
           </el-form-item>
