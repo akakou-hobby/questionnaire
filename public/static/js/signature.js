@@ -4,16 +4,13 @@ import init, { blind, unblind } from "../wasm/signature.js";
   await init();
 })();
 
-const calcSignature = async (data, id) => {
-  const pubkeyRes = await axios.get("../static/pub.pem");
-  const pubkey = pubkeyRes.data;
-
+const calcSignature = async (data, token, pubkey) => {
   const blindPairStr = blind(data, pubkey);
   const blindPair = JSON.parse(blindPairStr);
 
   const params = new URLSearchParams();
   params.append("blinded_digest", blindPair.blinded_digest);
-  params.append("form", id);
+  params.append("user_token", token);
 
   const signedRes = await axios.post(`api/sign.php`, params);
 

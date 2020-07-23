@@ -1,6 +1,5 @@
 use std::io;
 use std::env;
-use std::fs;
 
 use pem;
 
@@ -23,13 +22,16 @@ fn sign() -> Result<(), Box<dyn Error>>  {
     io::stdin().read_line(&mut encoded_digest)?;
     encoded_digest.truncate(encoded_digest.len() - 1);
 
-    let signer_priv_key = match fs::read_to_string("../../pri.pem") {
-        Ok(res) => res,
+    let mut signer_priv_key = String::new();
+    io::stdin().read_line(&mut signer_priv_key)?;
+    signer_priv_key.truncate(signer_priv_key.len() - 1);
+
+    let signer_priv_key = match base64::decode(signer_priv_key) {
+        Ok(result) => result,
         Err(err) => {
-            let path = env::current_dir()?;
-            eprintln!("[error] {}/../../pri.pem not found", path.to_string_lossy());
+            eprintln!("[error] decode pubkey");
             return Err(Box::new(err));
-        }
+        }  
     };
 
     let signer_priv_key = match pem::parse(signer_priv_key) {
@@ -40,7 +42,7 @@ fn sign() -> Result<(), Box<dyn Error>>  {
         }
     };
 
-    let signer_priv_key = match RSAPrivateKey::from_pkcs1(&signer_priv_key.contents) {
+    let signer_priv_key = match RSAPrivateKey::from_pkcs8(&signer_priv_key.contents) {
         Ok(res) => res,
         Err(err) => {
             eprintln!("[error] parse pkcs");
@@ -90,16 +92,19 @@ fn verify() -> Result<(), Box<dyn Error>>{
             return Err(Box::new(err));
         }
     };
+
+    let mut signer_pub_key = String::new();
+    io::stdin().read_line(&mut signer_pub_key)?;
+    signer_pub_key.truncate(signer_pub_key.len() - 1);
     
-    let signer_pub_key = match fs::read_to_string("../../static/pub.pem") {
-        Ok(res) => res,
+    let signer_pub_key = match base64::decode(signer_pub_key) {
+        Ok(result) => result,
         Err(err) => {
-            let path = env::current_dir()?;
-            eprintln!("[error] {}../../static/pub.pem not found", path.to_string_lossy());
+            eprintln!("[error] decode pubkey");
             return Err(Box::new(err));
-        }
+        }  
     };
-    
+
     let signer_pub_key = match pem::parse(signer_pub_key) {
         Ok(res) => res,
         Err(err) => {
@@ -108,7 +113,7 @@ fn verify() -> Result<(), Box<dyn Error>>{
         }
     };
 
-    let signer_pub_key = match RSAPublicKey::from_pkcs1(&signer_pub_key.contents) {
+    let signer_pub_key = match RSAPublicKey::from_pkcs8(&signer_pub_key.contents) {
         Ok(res) => res,
         Err(err) => {
             eprintln!("[error] parse pkcs1");
@@ -119,7 +124,7 @@ fn verify() -> Result<(), Box<dyn Error>>{
     let digest = blind::hash_message::<Sha256, _>(&signer_pub_key, message.as_bytes()).unwrap();
 
     match blind::verify(&signer_pub_key, &digest, &signature) {
-        Ok(_) => { print!("verified") },
+        Ok(_) => { print!("verifyed") },
         Err(e) => { print!("{}", e) },
     };
 
