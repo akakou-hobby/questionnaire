@@ -43,13 +43,12 @@ const CreateAnswerPage = {
   methods: {
     async answer() {
       const self = this;
-      // authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
-      //   self._answer();
-      // };
+      authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
+        self._answer();
+      };
 
-      // const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      // ui.start("#firebaseui-auth-container", authUIConfig);
-      self._answer();
+      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start("#firebaseui-auth-container", authUIConfig);
     },
 
     async _answer() {
