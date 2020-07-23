@@ -1,4 +1,4 @@
 <?php
 
-ORM::configure('sqlite:' . __DIR__ . '../../../../../db.sqlite3');
+ORM::configure('sqlite:' . __DIR__ . '/../db.sqlite3');
 
