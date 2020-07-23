@@ -25,12 +25,12 @@ $bytes = openssl_random_pseudo_bytes(16);
 $form->admin_token = bin2hex($bytes);
 
 $res = openssl_pkey_new($config);
-openssl_pkey_export($res, $privkey);
-$pubkey = openssl_pkey_get_details($res);
-$pubkey = $pubkey["key"];
+openssl_pkey_export($res, $prikey);
 
-$form->pubkey = str_replace("\n", "", $pubkey);
-$form->prikey = str_replace("\n", "", $privkey);
+$pubkey = openssl_pkey_get_details($res)["key"];
+
+$form->pubkey = base64_encode($pubkey);
+$form->prikey = base64_encode($prikey);
 
 $form->save(); 
 

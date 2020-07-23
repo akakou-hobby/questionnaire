@@ -47,7 +47,7 @@ const CreateAnswerPage = {
     },
 
     async _answer() {
-      const answers = JSON.stringify(this.data);
+      const answers = JSON.stringify(this.data.questions);
       const signature = await calcSignature(
         answers,
         this.$route.params.id,

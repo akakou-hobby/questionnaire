@@ -9,6 +9,10 @@ $contents = json_decode($json, true);
 
 $encoded_answers = base64_encode($contents["answers"]);
 
+$form = ORM::for_table('forms')
+    ->where('user_token', $contents["user_token"])
+    ->find_one();
+
 $cmd = __DIR__ . '/../../../sign verify';
 
 $descriptorspec = array(
@@ -21,7 +25,8 @@ $process = proc_open($cmd, $descriptorspec, $pipes);
 
 if (is_resource($process)) {
     fwrite($pipes[0], $encoded_answers  . "\n");
-    fwrite($pipes[0], $contents["signature"]);
+    fwrite($pipes[0], $contents["signature"] . "\n");
+    fwrite($pipes[0], $form->pubkey . "\n");
 
     fclose($pipes[0]);
 
@@ -34,7 +39,10 @@ if (is_resource($process)) {
     proc_close($process);
 }
 
-if ($result != "verified") return;
+if ($result != "verifyed") {
+    echo "can't verifyed";
+    return;
+};
 
 $answer = ORM::for_table('answers')->create();
 

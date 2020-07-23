@@ -5,8 +5,13 @@ require  __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/../../src/auth.php';
 require __DIR__ . '/../../src/db.php';
 
-$forms_id = $_POST['form'];
+$user_token = $_POST['user_token'];
 
+$form = ORM::for_table('forms')
+    ->where('user_token', $user_token)
+    ->find_one();
+
+// error_log($form->prikey);
 // $user = auth();
 // if (!$user) {
 //     echo "authentication failed";
@@ -23,6 +28,8 @@ $forms_id = $_POST['form'];
 //     exit;
 // }
 
+
+
 $descriptorspec = array(
     0 => array("pipe", "r"), 
     1 => array("pipe", "w"), 
@@ -36,7 +43,9 @@ $process = proc_open($cmd, $descriptorspec, $pipes);
 if (is_resource($process)) {
     $blind_digest = $_POST['blinded_digest'];
 
-    fwrite($pipes[0], $blind_digest);
+    fwrite($pipes[0], $blind_digest . "\n");
+    fwrite($pipes[0], $form->prikey . "\n");
+
     fclose($pipes[0]);
 
     echo stream_get_contents($pipes[1]);
