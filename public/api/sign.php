@@ -18,6 +18,8 @@ if (!$user) {
     exit;
 }
 
+$form_id = $form->id;
+
 $logs = ORM::for_table('signlogs')
     ->where('user_id', $user->user_id)
     ->where('form_id', $form_id)
