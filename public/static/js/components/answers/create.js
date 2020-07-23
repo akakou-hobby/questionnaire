@@ -30,6 +30,7 @@ const CreateAnswerPage = {
   data() {
     return {
       data: {},
+      count: 0,
     };
   },
   created: async function () {
@@ -41,24 +42,39 @@ const CreateAnswerPage = {
   },
   methods: {
     async answer() {
-      this._answer();
-      // const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      // ui.start("#firebaseui-auth-container", authUIConfig);
+      const self = this;
+      authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
+        self._answer();
+      };
+
+      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      ui.start("#firebaseui-auth-container", authUIConfig);
     },
 
     async _answer() {
+      const self = this;
+
       const answers = JSON.stringify(this.data.questions);
       const signature = await calcSignature(
         answers,
         this.$route.params.id,
         this.data.pubkey
       );
-      const res = await axios.post("api/answers/create.php", {
-        answers: answers,
-        signature: signature,
-        user_token: this.$route.params.id,
-      });
-      alert("done");
+
+      const pid = setInterval(async () => {
+        if (self.count > 0) {
+          self.count--;
+        } else {
+          const res = await axios.post("api/answers/create.php", {
+            answers: answers,
+            signature: signature,
+            user_token: this.$route.params.id,
+          });
+
+          alert(res.data);
+          clearInterval(pid);
+        }
+      }, 1000);
     },
   },
   template: `
@@ -74,9 +90,13 @@ const CreateAnswerPage = {
           </el-form-item>
 
           <el-form-item>
+            <el-input-number v-model="count"></el-input-number>
+          </el-form-item>
+          <el-form-item>
             <el-button v-on:click="answer">submit</el-button>
             <div id="firebaseui-auth-container"></div>
           </el-form-item>
+          
         </el-form>
       </el-card>  
     </div>
