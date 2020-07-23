@@ -12,22 +12,21 @@ $form = ORM::for_table('forms')
     ->find_one();
 
 // error_log($form->prikey);
-// $user = auth();
-// if (!$user) {
-//     echo "authentication failed";
-//     exit;
-// }
+$user = auth();
+if (!$user) {
+    echo "[error] authentication failed.";
+    exit;
+}
 
-// $logs = ORM::for_table('signlogs')
-//     ->where('user_id', $user->user_id)
-//     ->where('form_id', $form_id)
-//     ->count();
+$logs = ORM::for_table('signlogs')
+    ->where('user_id', $user->user_id)
+    ->where('form_id', $form_id)
+    ->count();
 
-// if ($logs) {
-//     echo "[error] same user can't post mutltple.";
-//     exit;
-// }
-
+if ($logs) {
+    echo "[error] same user can't post mutltple.";
+    exit;
+}
 
 
 $descriptorspec = array(
@@ -57,9 +56,9 @@ if (is_resource($process)) {
     proc_close($process);
 }
 
-// $logs = ORM::for_table('signlogs')->create();
+$logs = ORM::for_table('signlogs')->create();
 
-// $logs->user_id = $user->user_id;
-// $logs->form_id = $form_id;
+$logs->user_id = $user->user_id;
+$logs->form_id = $form_id;
 
-// $logs->save();
+$logs->save();
