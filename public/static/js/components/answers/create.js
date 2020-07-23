@@ -41,14 +41,18 @@ const CreateAnswerPage = {
     console.log(this.data);
   },
   methods: {
-    async answer() {
-      const self = this;
-      authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
+    answer() {
+      const self = this
+      if (firebaseUserIdToken) {
         self._answer();
-      };
+      } else {
+        authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
+          self._answer();
+        };
 
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start("#firebaseui-auth-container", authUIConfig);
+        const ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start("#firebaseui-auth-container", authUIConfig);
+      }
     },
 
     async _answer() {
