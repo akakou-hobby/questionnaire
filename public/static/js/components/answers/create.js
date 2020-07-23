@@ -41,14 +41,18 @@ const CreateAnswerPage = {
     console.log(this.data);
   },
   methods: {
-    async answer() {
-      const self = this;
-      authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
+    answer() {
+      const self = this
+      if (firebaseUserIdToken) {
         self._answer();
-      };
+      } else {
+        authUIConfig.callbacks.signInSuccessWithAuthResult = () => {
+          self._answer();
+        };
 
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
-      ui.start("#firebaseui-auth-container", authUIConfig);
+        const ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start("#firebaseui-auth-container", authUIConfig);
+      }
     },
 
     async _answer() {
@@ -58,6 +62,7 @@ const CreateAnswerPage = {
       const signature = await calcSignature(
         answers,
         this.$route.params.id,
+        firebaseUserIdToken,
         this.data.pubkey
       );
 
@@ -83,8 +88,8 @@ const CreateAnswerPage = {
         <div slot="header">
           <span>Form</span>
         </div>
-        <el-form label-width="80px">  
-          <el-form-item v-for="(pair, index) in data.questions">          
+        <el-form label-width="80px">
+          <el-form-item v-for="(pair, index) in data.questions">
             <p>Q{{index + 1}}. {{pair.question}}</p>
             <el-input v-model="pair.answer">submit</el-input>
           </el-form-item>
@@ -96,9 +101,9 @@ const CreateAnswerPage = {
             <el-button v-on:click="answer">submit</el-button>
             <div id="firebaseui-auth-container"></div>
           </el-form-item>
-          
+
         </el-form>
-      </el-card>  
+      </el-card>
     </div>
     `,
 };
